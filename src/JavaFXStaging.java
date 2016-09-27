@@ -4,16 +4,21 @@ import com.github.sarxos.webcam.WebcamMotionEvent;
 import com.github.sarxos.webcam.WebcamMotionListener;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.*;
+import javafx.scene.Scene;
+import javafx.scene.shape.*;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Created by kevin on 9/27/16.
+ */
+public class JavaFXStaging extends Application{
 
-//This is an art project, designed to display a set of random black and white squares.
-public class Main extends Application{
+    public JavaFXStaging(){
+    }
+
     //This sets up the visual aspect of the program.
     @Override
     public void start(Stage primaryStage) {
@@ -51,8 +56,12 @@ public class Main extends Application{
         detector.addMotionListener(wml);
         detector.start();
         addSquareArray(root, square);
-        showStage(primaryStage, scene);
+    }
 
+    public void showStage(Stage primaryStage, Scene scene){
+        //activates and shows the rectangle display.
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public void addSquareArray(Group root, Squares square) {
@@ -61,40 +70,5 @@ public class Main extends Application{
         for (javafx.scene.shape.Rectangle rectangle : rectangleArrayList) {
             root.getChildren().add(rectangle);
         }
-    }
-
-    public void setUpWebCam(Webcam webcam, WebcamMotionDetector detector, Group root, Squares square, Stage primaryStage, Scene scene) {
-
-        //checks to make sure a webcam exists, stops the program if there is none.
-        if (webcam == null) {
-            System.out.println("No webcam detected.");
-            System.exit(-1);
-        }
-        //this responds to the use of the motionso f the webcam.
-        WebcamMotionListener wml = new WebcamMotionListener() {
-            @Override
-            public void motionDetected(WebcamMotionEvent webcamMotionEvent) {
-                addSquareArray(root, square);
-            }
-        };
-        //sets up the detector for use by the program.
-        detector = new WebcamMotionDetector(webcam);
-        detector.setInterval(100);
-        detector.addMotionListener(wml);
-        detector.start();
-    }
-
-
-
-
-    public void showStage(Stage primaryStage, Scene scene){
-        //activates and shows the rectangle display.
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-
-    public static void main(String[] args) throws IOException {
-        launch(args);
-
     }
 }
